@@ -8,7 +8,16 @@ dotenv.config();
 
 // DB connection
 const connectDB = require("./config/db");
-connectDB();
+
+(async () => {
+    try {
+        await connectDB();
+        console.log("MongoDB Connected Successfully");
+    } catch (err) {
+        console.error("DB Connection Failed:", err);
+        process.exit(1);
+    }
+})();
 
 // Routes
 const authRoutes = require("./routes/authRoutes");
