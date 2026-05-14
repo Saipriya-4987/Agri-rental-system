@@ -1,36 +1,43 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const dotenv = require("dotenv");
+const path = require("path");
 
+// Load env variables FIRST
+dotenv.config();
+
+// DB connection
 const connectDB = require("./config/db");
-
-// Connect to MongoDB
 connectDB();
 
-const app = express();
-const path = require("path");
+// Routes
 const authRoutes = require("./routes/authRoutes");
 const toolRoutes = require("./routes/toolRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 
+const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Static folder (uploads)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// API Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/tools",toolRoutes);
+app.use("/api/tools", toolRoutes);
 app.use("/api/bookings", bookingRoutes);
 
-// Test Route
+// Test route
 app.get("/", (req, res) => {
     res.send("API Running...");
 });
 
-// Server Port
+// Port
 const PORT = process.env.PORT || 5000;
 
-// Start Server
-app.listen(PORT, () => {
+// Start server
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
 });

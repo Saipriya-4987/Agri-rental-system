@@ -63,9 +63,28 @@ const getToolById = async (req, res) => {
 // UPDATE TOOL
 const updateTool = async (req, res) => {
     try {
+        let updateData = { ...req.body };
+
+        // Handle image upload if a new file is provided
+        if (req.file) {
+            updateData.image = `/uploads/${req.file.filename}`;
+        }
+
+        // Parse location and slots if they are in the body
+        if (req.body.lat || req.body.lng) {
+            updateData.location = {
+                lat: parseFloat(req.body.lat) || 0,
+                lng: parseFloat(req.body.lng) || 0
+            };
+        }
+
+        if (req.body.availableSlots && !Array.isArray(req.body.availableSlots)) {
+            updateData.availableSlots = req.body.availableSlots.split(",").map(s => s.trim());
+        }
+
         const tool = await Tool.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             { new: true }
         );
 

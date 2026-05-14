@@ -10,29 +10,43 @@ const {
     deleteTool
 } = require("../controllers/toolController");
 
-const { protect, authorizeRoles } = require("../middleware/authMiddleware");
+const { protect } = require("../middleware/authMiddleware");
+
 const multer = require("multer");
 const path = require("path");
 
-// Configure Multer
+// Upload config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+    destination: (req, file, cb) => {
+        cb(null, "uploads/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
 });
+
 const upload = multer({ storage });
 
-// PUBLIC ROUTES
+/* ======================
+   PUBLIC ROUTES
+====================== */
 router.get("/", getAllTools);
 router.get("/:id", getToolById);
 
-// PROTECTED ROUTES
-router.post("/", protect, authorizeRoles("owner", "admin"), upload.single("image"), createTool);
-router.get("/my", protect, authorizeRoles("owner"), getMyTools);
-router.put("/:id", protect, authorizeRoles("owner", "admin"), updateTool);
-router.delete("/:id", protect, authorizeRoles("owner", "admin"), deleteTool);
+/* ======================
+   PROTECTED ROUTES
+====================== */
+
+// CREATE TOOL
+router.post("/", protect, upload.single("image"), createTool);
+
+// MY TOOLS
+router.get("/my", protect, getMyTools);
+
+// UPDATE TOOL
+router.put("/:id", protect, upload.single("image"), updateTool);
+
+// DELETE TOOL
+router.delete("/:id", protect, deleteTool);
 
 module.exports = router;
