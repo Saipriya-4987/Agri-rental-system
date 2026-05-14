@@ -7,21 +7,20 @@ export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const uRes = await API.get("/auth/users");
+        const tRes = await API.get("/tools");
+        const bRes = await API.get("/bookings/all");
+        setUsers(uRes.data);
+        setTools(tRes.data);
+        setBookings(bRes.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const uRes = await API.get("/auth/users");
-      const tRes = await API.get("/tools");
-      const bRes = await API.get("/bookings/all");
-      setUsers(uRes.data);
-      setTools(tRes.data);
-      setBookings(bRes.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div style={{ minHeight: "100vh", background: "#1a1a1a", color: "#e0e0e0" }}>

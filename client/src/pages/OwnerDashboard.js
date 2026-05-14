@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import API, { BASE_URL } from "../api";
 
 export default function OwnerDashboard() {
   const [tools, setTools] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    fetchMyTools();
-  }, []);
-
-  const fetchMyTools = async () => {
+  const fetchMyTools = useCallback(async () => {
     try {
       const res = await API.get("/tools/my");
       setTools(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchMyTools();
+  }, [fetchMyTools]);
 
   const deleteTool = async (id) => {
     if (window.confirm("Are you sure you want to delete this tool?")) {

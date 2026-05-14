@@ -5,17 +5,16 @@ export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const res = await API.get("/bookings/user");
+        setBookings(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchBookings();
   }, []);
-
-  const fetchBookings = async () => {
-    try {
-      const res = await API.get("/bookings/user");
-      setBookings(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getStatusColor = (status) => {
     switch (status) {

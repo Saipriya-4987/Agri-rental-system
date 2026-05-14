@@ -5,17 +5,16 @@ export default function Home() {
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
+    const fetchTools = async () => {
+      try {
+        const res = await API.get("/tools");
+        setTools(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchTools();
   }, []);
-
-  const fetchTools = async () => {
-    try {
-      const res = await API.get("/tools");
-      setTools(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const viewDetails = (toolId) => {
     window.location.href = `/tool/${toolId}`;

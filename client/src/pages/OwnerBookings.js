@@ -1,21 +1,15 @@
-import { useEffect, useState } from "react";
-import API from "../api";
-
-export default function OwnerBookings() {
-  const [bookings, setBookings] = useState([]);
-
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     try {
       const res = await API.get("/bookings/owner");
       setBookings(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
 
   const updateStatus = async (id, status) => {
     try {

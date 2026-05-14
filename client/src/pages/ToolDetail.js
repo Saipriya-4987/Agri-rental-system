@@ -21,17 +21,16 @@ export default function ToolDetail() {
   const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
+    const fetchTool = async () => {
+      try {
+        const res = await API.get(`/tools/${id}`);
+        setTool(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchTool();
   }, [id]);
-
-  const fetchTool = async () => {
-    try {
-      const res = await API.get(`/tools/${id}`);
-      setTool(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleBooking = async () => {
     if (!selectedSlot) return alert("Please select a slot");
