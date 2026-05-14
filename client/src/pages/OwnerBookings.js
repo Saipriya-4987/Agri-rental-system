@@ -1,3 +1,9 @@
+import { useEffect, useState, useCallback } from "react";
+import API from "../api";
+
+export default function OwnerBookings() {
+  const [bookings, setBookings] = useState([]);
+
   const fetchBookings = useCallback(async () => {
     try {
       const res = await API.get("/bookings/owner");
@@ -126,4 +132,3 @@
     </div>
   );
 }
-
