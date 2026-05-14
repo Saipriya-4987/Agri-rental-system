@@ -41,6 +41,24 @@ A full-stack web application that enables farmers to rent and manage agricultura
 
 ## 📁 Project Structure
 
+
+Agri-rental-system/
+│
+├── client/ # Frontend (React app)
+│ ├── src/
+│ ├── public/
+│ └── package.json
+│
+├── server/ # Backend (Node + Express)
+│ ├── routes/
+│ ├── uploads/
+│ ├── models/
+│ └── server.js
+│
+├── .gitignore
+├── README.md
+└── package.json
+
 ---
 
 ## ⚙️ Installation & Setup
@@ -123,22 +141,6 @@ If you like this project, don’t forget to ⭐ the repository and share it with
 ```
 
 
-Agri-rental-system/
-│
-├── client/ # Frontend (React app)
-│ ├── src/
-│ ├── public/
-│ └── package.json
-│
-├── server/ # Backend (Node + Express)
-│ ├── routes/
-│ ├── uploads/
-│ ├── models/
-│ └── server.js
-│
-├── .gitignore
-├── README.md
-└── package.json
 
 
 ---
